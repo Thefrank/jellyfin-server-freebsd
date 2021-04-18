@@ -60,9 +60,9 @@ Creation of a user is usually handled by the package on installation but is left
 
 I suggest creating a user/group named `jellyfin`
 
-`adduser`
+`pw user add jellyfin -c jellyfin -u 710 -d /nonexistent -s /usr/bin/nologin`
 
-Configure to your liking, however, make sure password based authentication is off as this is a service user. You can also optionally make the default shell `nologin`
+The above will create a "jellyfin" user with UID 710.
 
 We still are not done with the shell!
 

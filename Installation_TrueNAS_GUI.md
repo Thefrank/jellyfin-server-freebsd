@@ -39,13 +39,13 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.7.2/jellyfinserver-10.7.2.txz`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.7.2/jellyfinserver-10.7.6.txz`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.7.2.txz`
+`pkg install jellyfinserver-10.7.6.txz`
 
-Currently, jellyfinserver looks for a library that is named different on FreeBSD/TrueNAS than on other OSes so we need to create a symlink for it.
+Currently, jellyfinserver looks for a library that is not able to be built for FreeBSD however, we have a "close enough" alternative so we symlink to it.
 
 `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`
 

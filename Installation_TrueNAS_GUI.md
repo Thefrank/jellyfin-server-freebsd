@@ -85,3 +85,11 @@ Almost done, let's start the service:
 If everything went according to plan then jellyfin should be up and running on the IP of the jail!
 
 (You can now safely close the shell)
+
+## Troubleshooting and other things to note
+- /Confusing HTTP/S messages/ (or other problems with jellyfin not being able to use the internet)
+   - Make sure you have VNET turned on for your jail.
+     - I have VNET turned on!
+       - Don't try and have jellyfin monitor SMB shares `libinotify` does not impliment this well
+          - I am not using SMB shares!
+             - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`

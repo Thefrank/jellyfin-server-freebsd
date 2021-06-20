@@ -17,7 +17,7 @@ This package will lag behind the official Jellyfin product as it is not a part t
   - Figure out how to wire FreeBSD ports system into autopackaging updates from here
  
 # Bugs
-Please **DO NOT** bring bugs about this build or platform to the main jellyfin team. This is **Unofficial**. Open a ticket if you are having issues but please check their official [Issues](https://github.com/jellyfin/jellyfin/issues) first. 
+Please **DO NOT** bring bugs about this build or platform to the main jellyfin team. This is **Unofficial**. Open a ticket if you are having issues but please check their official [Issues](https://github.com/jellyfin/jellyfin/issues) first and make sure you have read the [Troubleshooting section](https://github.com/Thefrank/jellyfin-server-freebsd/blob/main/Installation_TrueNAS_GUI.md#troubleshooting-and-other-things-to-note) in the TrueNAS guide (yes, even if using base FreeBSD) 
 
 # License(s)
 
@@ -25,4 +25,8 @@ Please **DO NOT** bring bugs about this build or platform to the main jellyfin t
  - Skia is under BSD-3-CLAUSE 
  - Bundled combination of the above would likely fall under GPLv2 or some dual
    license. 
-	  - IANAL so I am not 100% sure.
+ - IANAL so I am not 100% sure.
+
+# One more thing
+
+Microsoft does not currently official support dotNET5 on FreeBSD so this packagea and its binaries might have limited support across FreeBSD versions. Getting dotNET to work under FreeBSD is becoming more and more of a challenge after each preview of dotNET6, if you are knowledgeable in the inner-workings of FreeBSD please drop over to https://github.com/dotnet/runtime/issues/14537 and see if you can help. Finally, dotNET5 goes EOL only a few months after dotNET6 goes live which means that dotnet5 will no longer be seeing any updates starting as soon as Feburary 2022!

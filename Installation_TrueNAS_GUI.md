@@ -6,6 +6,8 @@ If you are not comfortable setting up a jail or using the shell please wait unti
 
 If you are installing from base FreeBSD there is a different guide for that!
 
+As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the newer `.pkg` format.
+
 ## Jail Setup
 1. From the main screen select Jails
 
@@ -19,11 +21,19 @@ If you are installing from base FreeBSD there is a different guide for that!
 
 6. Release: 12.2-Release (or newer)
 
-7. Configure Basic Properties to your liking
+7. Configure Basic Properties to your liking but add
+- [x] VNET 
+
+  * (While this is not a hard requirement, not having it means things like DLNA will not work)
+  * (You may also encouter other networking issues! See: troubleshooting)
 
 8. Configure Jail Properties to your liking but add
 - [x] allow_raw_sockets
+  
+  * (Highly suggested for easier troubleshooting)
 - [x] allow_mlock
+
+  * (This is REQUIRED)
 
 9. Configure Network Properties to your liking
 
@@ -39,11 +49,11 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.7.6/jellyfinserver-10.7.6.txz`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.7.7/jellyfinserver-10.7.7.pkg`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.7.6.txz`
+`pkg install jellyfinserver-10.7.7.pkg`
 
 Currently, jellyfinserver looks for a library that is not able to be built for FreeBSD however, we have a "close enough" alternative so we symlink to it.
 

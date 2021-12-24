@@ -4,7 +4,7 @@ Jellyfin currently does not use the plugin system that TrueNAS uses so this will
 
 If you are not comfortable setting up a jail or using the shell please wait until someone (maybe me?) adds it to the community plugin libary.
 
-If you are installing from base FreeBSD there is a different guide for that!
+If you are installing from base FreeBSD, I have included some general details that you can use for you jail at the end of the "Jail Setup" section
 
 As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the newer `.pkg` format.
 
@@ -40,6 +40,18 @@ As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the
 10. Configure Custom Properties to your liking
 
 11. Click Save
+
+
+Summary for base FreeBSD users:
+
+Required:
+- Unprivileged mlock (usually allow_mlock=1, allow.mlock=1, or security.bsd.unprivileged_mlock: 1)
+- At least one of:
+  - VNET (usually, vnet=1 or security.jail.vnet: 1)
+  - ip6=inherit (or ip6=new)
+
+Suggested:
+- raw sockets (usually allow_raw_sockets=1 or security.jail.allow_raw_sockets: 1)
 
 ## Jellyfin Installation
 
@@ -103,3 +115,5 @@ If everything went according to plan then jellyfin should be up and running on t
        - Don't try and have jellyfin monitor SMB shares `libinotify` does not impliment this well
           - I am not using SMB shares!
              - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`
+     - I don't want to use VNET!
+      - Your jail needs at least ip6=inherit (or ip6=new)

@@ -29,4 +29,4 @@ Please **DO NOT** bring bugs about this build or platform to the main jellyfin t
 
 # One more thing
 
-Microsoft does not currently official support dotNET5 on FreeBSD so this packagea and its binaries might have limited support across FreeBSD versions. Getting dotNET to work under FreeBSD is becoming more and more of a challenge after each preview of dotNET6, if you are knowledgeable in the inner-workings of FreeBSD please drop over to https://github.com/dotnet/runtime/issues/14537 and see if you can help. Finally, dotNET5 goes EOL only a few months after dotNET6 goes live which means that dotnet5 will no longer be seeing any updates starting as soon as Feburary 2022!
+Microsoft does not currently official support dotNET5+ on FreeBSD so this packagea and its binaries might have limited support across FreeBSD versions. If you are knowledgeable in the inner-workings of FreeBSD please drop over to https://github.com/dotnet/runtime/issues/14537 if you would like to help out getting dotNET on to FreeBSD.

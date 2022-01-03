@@ -21,12 +21,14 @@ As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the
 
 6. Release: 12.2-Release (or newer)
 
-7. Configure Basic Properties to your liking but add
+7. Configure Basic Properties to your liking but add AT LEAST ONE of
 - [x] VNET 
+- [X] IPv6
 
-  * (While this is not a hard requirement, not having it means things like DLNA will not work)
+  * (Not having VNET means things like DLNA will not work)
   * (You may also encouter other networking issues! See: troubleshooting)
-
+  * (The service file will try and work around user configuration issues but is not perfect)
+ 
 8. Configure Jail Properties to your liking but add
 - [x] allow_raw_sockets
   
@@ -67,10 +69,6 @@ Now we install it:
 
 `pkg install jellyfinserver-10.7.7.pkg`
 
-Currently, jellyfinserver looks for a library that is not able to be built for FreeBSD however, we have a "close enough" alternative so we symlink to it.
-
-`ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`
-
 Don't close the shell out yet we still have a few more things!
 
 ## Configuring Jellyfin
@@ -78,13 +76,7 @@ Don't close the shell out yet we still have a few more things!
 Now that we have it installed a few more steps are required.
 
 ### User and Group Setup
-Creation of a user is usually handled by the package on installation but is left out here because we don't have a reserved UID/GID for jellyfin so...
-
-I suggest creating a user/group named `jellyfin`
-
-`pw user add jellyfin -c jellyfin -u 710 -d /nonexistent -s /usr/bin/nologin`
-
-The above will create a "jellyfin" user with UID 710.
+Creation of a user and group is handled by the package on installation but if you want to use your own, set that up now.
 
 We still are not done with the shell!
 
@@ -94,7 +86,7 @@ Time to enable the service
 
 `sysrc jellyfinserver_enable=TRUE`
 
-If you did not create a user/group named `jellyfin` you will need to tell the service file what user/group it should be running under
+If you want to use a different UID/GID please change that now:
 
 `sysrc jellyfinserver_user="USER_YOU_WANT"`
 
@@ -104,7 +96,7 @@ Almost done, let's start the service:
 
 `service jellyfinserver start`
 
-If everything went according to plan then jellyfin should be up and running on the IP of the jail!
+If everything went according to plan then jellyfin should be up and running on the IP of the jail (port 8096)!
 
 (You can now safely close the shell)
 
@@ -116,4 +108,6 @@ If everything went according to plan then jellyfin should be up and running on t
           - I am not using SMB shares!
              - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`
      - I don't want to use VNET!
-      - Your jail needs at least ip6=inherit (or ip6=new)
+       - Your jail needs at least ip6=inherit (or ip6=new)
+- Something SQL related
+  - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`

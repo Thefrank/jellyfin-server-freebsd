@@ -92,6 +92,10 @@ If you want to use a different UID/GID please change that now:
 
 `sysrc jellyfinserver_group="GROUP_YOU_WANT"`
 
+`chown -R USER_YOU_WANT:GROUP_YOU_WANT /var/cache/jellyfinserver/ /var/db/jellyfinserver/ /usr/local/jellyfinserver/ /usr/local/etc/rc.d/jellyfinserver`
+
+
+
 Almost done, let's start the service:
 
 `service jellyfinserver start`

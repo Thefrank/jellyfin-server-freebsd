@@ -108,6 +108,6 @@ If everything went according to plan then jellyfin should be up and running on t
           - I am not using SMB shares!
              - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`
      - I don't want to use VNET!
-       - Your jail needs at least ip6=inherit (or ip6=new)
+       - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK
 - Something SQL related
   - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`

@@ -4,7 +4,7 @@ Microsoft does not have an official build of dotNET for FreeBSD. See [HERE](http
 This repo currently only contains binary components for [Jellyfin-Server](https://github.com/jellyfin/jellyfin) (FreeBSD AMD64) and [Jellyfin-Web](https://github.com/jellyfin/jellyfin-web/) (Portable) in addition to the required and pre-built libSkiaSharp. An installable package (.txz) is provided for ease of installation.
 
 ## Divergence from main project
-This product builds cleanly with a working dotNET SDK under FreeBSD 12.2. No code modification is required unless using the `build.sh` or `build.yaml`
+This product builds cleanly with a working dotNET SDK under FreeBSD 12.2+. No code modification is required unless using the `build.sh` or `build.yaml`
 
 
 # Updates

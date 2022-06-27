@@ -50,7 +50,7 @@ Required:
 - Unprivileged mlock (usually allow_mlock=1, allow.mlock=1, or security.bsd.unprivileged_mlock: 1)
 - At least one of:
   - VNET (usually, vnet=1 or security.jail.vnet: 1)
-  - ip6=inherit (or ip6=new)
+  - If using IPv6: ip6=inherit
 
 Suggested:
 - raw sockets (usually allow_raw_sockets=1 or security.jail.allow_raw_sockets: 1)
@@ -63,11 +63,11 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.7.7/jellyfinserver-10.7.7.pkg`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.0/jellyfinserver-10.8.0.pkg`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.7.7.pkg`
+`pkg install jellyfinserver-10.8.0.pkg`
 
 Don't close the shell out yet we still have a few more things!
 
@@ -100,6 +100,18 @@ If everything went according to plan then jellyfin should be up and running on t
 
 (You can now safely close the shell)
 
+## Updating Jellyfin Installation
+
+This is similar to installing Jellyfin but with fewer steps:
+
+- Stop the current jellyfin server (NOT THE JAIL)
+
+- Use `fetch` to download the newest pkg from the releases page found here: https://github.com/Thefrank/jellyfin-server-freebsd/releases/latest
+
+- Use `pkg` to install said package
+
+- Start the jellyfin server
+
 ## Troubleshooting and other things to note
 - /Confusing HTTP/S messages/ (or other problems with jellyfin not being able to use the internet)
    - Make sure you have VNET turned on for your jail.
@@ -108,6 +120,6 @@ If everything went according to plan then jellyfin should be up and running on t
           - I am not using SMB shares!
              - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`
      - I don't want to use VNET!
-       - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK
+       - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK. Blame a combination of how FreeBSD exposes its network stack to jails and now dotNET handles the responses it gets.
 - Something SQL related
   - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`

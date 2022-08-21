@@ -63,11 +63,11 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.3/jellyfinserver-10.8.3.pkg`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.3/jellyfinserver-10.8.4.pkg`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.8.3.pkg`
+`pkg install jellyfinserver-10.8.4.pkg`
 
 Don't close the shell out yet we still have a few more things!
 
@@ -120,6 +120,6 @@ This is similar to installing Jellyfin but with fewer steps:
           - I am not using SMB shares!
              - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`
      - I don't want to use VNET!
-       - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK. Blame a combination of how FreeBSD exposes its network stack to jails and now dotNET handles the responses it gets.
+       - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK. Blame a combination of how FreeBSD exposes its network stack to jails and how dotNET handles the responses it gets.
 - Something SQL related
   - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`

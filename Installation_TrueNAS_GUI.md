@@ -63,11 +63,11 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.4/jellyfinserver-10.8.4.pkg`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.5/jellyfinserver-10.8.5.pkg`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.8.4.pkg`
+`pkg install jellyfinserver-10.8.5.pkg`
 
 Don't close the shell out yet we still have a few more things!
 

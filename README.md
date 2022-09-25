@@ -13,7 +13,8 @@ This package will lag behind the official Jellyfin product as it is not a part t
 
 # TODO
 
- - CI/CD system which will likely be Azure DevOps as it does not appear Github actions has FreeBSD systems 
+ - ~~CI/CD system which will likely be Azure DevOps as it does not appear Github actions has FreeBSD systems~~
+   - Finished for v10.8.5!
  - Figure out how to wire FreeBSD ports system into autopackaging updates from here
  - Figure out how to use libmap in ports system instead of making a symlink for library
  

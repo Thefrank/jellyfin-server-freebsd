@@ -63,11 +63,11 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.5/jellyfinserver-10.8.5.pkg`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.7/jellyfinserver-10.8.7.pkg`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.8.5.pkg`
+`pkg install jellyfinserver-10.8.7.pkg`
 
 Don't close the shell out yet we still have a few more things!
 
@@ -123,3 +123,7 @@ This is similar to installing Jellyfin but with fewer steps:
        - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK. Blame a combination of how FreeBSD exposes its network stack to jails and how dotNET handles the responses it gets.
 - Something SQL related
   - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`
+- Jellyfin can't see my mount points / files!
+  - Double check your permissions. Jellyfin does not need to be the owner, but its GID should be a part of a group that can access the mount/file. This is also your reminder to keep UID/GID consistent between host and guest systems.
+- Posters aren't rendering! Something `libSkiaSharp` version related in the log!
+  - Tests don't seem to cover if the right version of `libSkipSharp` is bundled with Jellyfin. I try and check the upstream log for what version is now required but I may have missed it. Open a ticket to remind me to rebuild the library. 

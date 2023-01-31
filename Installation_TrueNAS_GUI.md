@@ -114,9 +114,9 @@ This is similar to installing Jellyfin but with fewer steps:
 
 ## Hardware encoding (Intel)
 
-### Jail packages to add
+### Packages to add inside the Jail 
 
-Open a ssh shell and execute theses commands : 
+Back on the jails list find your newly created jail for jellyfin and click "Shell" :
 
 `pkg install libva-utils`
 
@@ -126,7 +126,11 @@ Open a ssh shell and execute theses commands :
 
 Download the file 'scripts/lffmpeg' in the github https://github.com/Thefrank/jellyfin-server-freebsd
 
-`cd /usr/local/bin && fetch 'script'`
+`cd /usr/local/bin`
+
+`ee lffmpeg`
+
+`chmod +x lffmpeg`
 
 ### Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
 

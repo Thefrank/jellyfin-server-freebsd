@@ -131,8 +131,24 @@ This is similar to installing Jellyfin but with fewer steps:
      ```
      cd /usr/local/bin
      ee lffmpeg
-     chmod +x lffmpeg
      ```
+
+     Paste the file content :
+
+     ```
+     #!/bin/sh
+
+     ffmpeg -hwaccel vaapi "$@"
+     ```
+
+     Close the editor with [ESC]
+
+  - Make lffmpeg script executable
+
+     `chmod +x lffmpeg`
+
+
+
 
 - Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
   - Open a ssh shell and execute theses commands : 

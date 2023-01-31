@@ -116,29 +116,31 @@ This is similar to installing Jellyfin but with fewer steps:
 
 ### Packages to add inside the Jail 
 
-Back on the jails list find your newly created jail for jellyfin and click "Shell" :
+- Back on the jails list find your newly created jail for jellyfin and click "Shell" :
+  - Execute Theses commands : 
 
-`pkg install libva-utils`
+    ```
+    pkg install libva-utils
+    pkg install libva-intel-media-driver
+    ```
 
-`pkg install libva-intel-media-driver`
+  - Add lffmpeg script to add missing vaapi command
 
-### Add lffmpeg script to add missing vaapi command
+     Download the file 'scripts/lffmpeg' in the github https://github.com/Thefrank/jellyfin-server-freebsd
 
-Download the file 'scripts/lffmpeg' in the github https://github.com/Thefrank/jellyfin-server-freebsd
+     ```
+     cd /usr/local/bin
+     ee lffmpeg
+     chmod +x lffmpeg
+     ```
 
-`cd /usr/local/bin`
+- Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
+  - Open a ssh shell and execute theses commands : 
 
-`ee lffmpeg`
-
-`chmod +x lffmpeg`
-
-### Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
-
-Open a ssh shell and execute theses commands : 
-
-`cd /root && fetch 'script'`
-
-`chmod +x /root/enable_gpu_jails.sh`
+    ```
+    cd /root && fetch 'script'
+    chmod +x /root/enable_gpu_jails.sh
+    ```
 
 
 ## Troubleshooting and other things to note

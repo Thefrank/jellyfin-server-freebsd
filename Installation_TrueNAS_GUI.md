@@ -187,7 +187,7 @@ This is similar to installing Jellyfin but with fewer steps:
     
 ### Required editing to the Jail and Test
 
-- Stop the JellyFin jail
+- Stop the Jellyfin jail
 - open the Edit for the jail
   - Navigate to the 'Jail Properties' tab
   - Look for the devfs_ruleset (should be the first option on the left)
@@ -196,7 +196,7 @@ This is similar to installing Jellyfin but with fewer steps:
 - Open a shell
   - type 'vainfo' and look for entrypoints like : 'VAProfileH264Main : VAEntrypointEncSlice' (there can be multiple)
   - close the shell
-- Connect to the JellyFin UI
+- Connect to the Jellyfin UI
   - Verify that playback does work before enabling hardware encoding
   - Once software playback is working go to Server --> Playback from the Dashboard
     - Change the 'Hardware acceleration:' option from 'None' to 'VAAPI'

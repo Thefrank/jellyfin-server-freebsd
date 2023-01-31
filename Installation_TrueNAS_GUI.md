@@ -112,6 +112,23 @@ This is similar to installing Jellyfin but with fewer steps:
 
 - Start the jellyfin server
 
+## Hardware encoding
+
+### Jail packages to add (Intel)
+
+`pkg install libva-utils`
+`pkg install libva-intel-media-driver`
+
+### Add lffmpeg script to add missing vaapi command
+
+cd /usr/local/bin && fetch 'script'
+
+### Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
+
+Open a ssh shell and execute theses commands : 
+`cd /root && fetch 'script'`
+`chmod +x /root/enable_gpu_jails.sh`
+
 ## Troubleshooting and other things to note
 - /Confusing HTTP/S messages/ (or other problems with jellyfin not being able to use the internet)
    - Make sure you have VNET turned on for your jail.

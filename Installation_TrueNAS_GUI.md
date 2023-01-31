@@ -114,7 +114,7 @@ This is similar to installing Jellyfin but with fewer steps:
 
 ## Hardware encoding (Intel)
 
-### Packages to add inside the Jail 
+### Packages and script to add inside the Jail 
 
 - Back on the jails list find your newly created jail for jellyfin and click "Shell" :
   - Execute Theses commands : 
@@ -146,7 +146,7 @@ This is similar to installing Jellyfin but with fewer steps:
 
      `chmod +x lffmpeg`
 
-### Scripts to add on the TrueNas Core Host
+### Script to add on the TrueNas Core Host
 
 - Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
   - Open a ssh shell on the TrueNas host 

@@ -117,12 +117,10 @@ This is similar to installing Jellyfin but with fewer steps:
 ### Packages and script to add inside the Jail 
 
 - Back on the jails list find your newly created jail for jellyfin and click "Shell" :
-  - Execute Theses commands : 
-
-    ```
-    pkg install libva-utils
-    pkg install libva-intel-media-driver
-    ```
+  - Install vautils : `pkg install libva-utils`
+  - Install intel driver : [vaapi driver support page](https://github.com/intel/media-driver#decodingencoding-features)
+    - 4th gen and older : `pkg install libva-intel-driver`
+    - 5th gen and newer : `pkg install libva-intel-media-driver`
 
   - Add lffmpeg script to add missing vaapi command
 

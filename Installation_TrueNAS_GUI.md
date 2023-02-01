@@ -118,7 +118,7 @@ This is similar to installing Jellyfin but with fewer steps:
 
 - Back on the jails list find your newly created jail for jellyfin and click "Shell" :
   - Install vautils : `pkg install libva-utils`
-  - Install intel driver : [vaapi driver support page](https://github.com/intel/media-driver#decodingencoding-features)
+  - Install intel driver : [VAAPI driver support page](https://github.com/intel/media-driver#decodingencoding-features)
     - 4th gen and older : `pkg install libva-intel-driver`
     - 5th gen and newer : `pkg install libva-intel-media-driver`
 
@@ -225,3 +225,8 @@ This is similar to installing Jellyfin but with fewer steps:
   - Double check your permissions. Jellyfin does not need to be the owner, but its GID should be a part of a group that can access the mount/file. This is also your reminder to keep UID/GID consistent between host and guest systems.
 - Posters aren't rendering! Something `libSkiaSharp` version related in the log!
   - Tests don't seem to cover if the right version of `libSkipSharp` is bundled with Jellyfin. I try and check the upstream log for what version is now required but I may have missed it. Open a ticket to remind me to rebuild the library. 
+- System kernel panic and reset when using VAAPI
+  - In the Bios :
+    - Try forcing the integrated GPU as first GPU
+    - Set at least 128Mb of ram to the integrated GPU and 256 of pre allocated DMVT
+  - Plug a monitor or a Dummy HDMI (some integrated GPU seem to require a monitor for memory allocation)

@@ -186,7 +186,7 @@ This is similar to installing Jellyfin but with fewer steps:
 ### Required editing to the Jail and Test
 
 - Stop the Jellyfin jail
-- open the Edit for the jail
+- Open the Edit for the jail
   - Navigate to the 'Jail Properties' tab
   - Look for the devfs_ruleset (should be the first option on the left)
   - Change the rulset number to 10

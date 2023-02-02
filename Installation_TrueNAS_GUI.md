@@ -194,7 +194,7 @@ This is similar to installing Jellyfin but with fewer steps:
 - Open a shell
   - type 'vainfo' and look for entrypoints like : 'VAProfileH264Main : VAEntrypointEncSlice' (there can be multiple)
   - add the group video to the Jellyfin user (replace jellyfinserver if the user was changed with the sys_rc command during service setup
-    - group mod video -m jellyfinserver
+    - `pw group mod video -m jellyfinserver`
   - close the shell
 - Connect to the Jellyfin UI
   - Verify that playback does work before enabling hardware encoding

@@ -122,7 +122,7 @@ This is similar to installing Jellyfin but with fewer steps:
     - 4th gen and older : `pkg install libva-intel-driver`
     - 5th gen and newer : `pkg install libva-intel-media-driver`
 
-  - Add lffmpeg script to add missing vaapi command
+  - Add lffmpeg script to add missing VAAPI command
 
      Create the lffmpeg script file (available here : [url](script/lffmpeg))
 

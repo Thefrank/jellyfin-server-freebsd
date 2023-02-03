@@ -117,14 +117,12 @@ This is similar to installing Jellyfin but with fewer steps:
 ### Packages and script to add inside the Jail 
 
 - Back on the jails list find your newly created jail for jellyfin and click "Shell" :
-  - Execute Theses commands : 
+  - Install vautils : `pkg install libva-utils`
+  - Install intel driver : [VAAPI driver support page](https://github.com/intel/media-driver#decodingencoding-features)
+    - 4th gen and older : `pkg install libva-intel-driver`
+    - 5th gen and newer : `pkg install libva-intel-media-driver`
 
-    ```
-    pkg install libva-utils
-    pkg install libva-intel-media-driver
-    ```
-
-  - Add lffmpeg script to add missing vaapi command
+  - Add lffmpeg script to add missing VAAPI command
 
      Create the lffmpeg script file (available here : [url](script/lffmpeg))
 
@@ -188,13 +186,15 @@ This is similar to installing Jellyfin but with fewer steps:
 ### Required editing to the Jail and Test
 
 - Stop the Jellyfin jail
-- open the Edit for the jail
+- Open the Edit for the jail
   - Navigate to the 'Jail Properties' tab
   - Look for the devfs_ruleset (should be the first option on the left)
   - Change the rulset number to 10
   - Save and start the jail
 - Open a shell
   - type 'vainfo' and look for entrypoints like : 'VAProfileH264Main : VAEntrypointEncSlice' (there can be multiple)
+  - add the group video to the Jellyfin user (replace jellyfinserver if the user was changed with the sys_rc command during service setup
+    - `pw group mod video -m jellyfinserver`
   - close the shell
 - Connect to the Jellyfin UI
   - Verify that playback does work before enabling hardware encoding
@@ -227,3 +227,8 @@ This is similar to installing Jellyfin but with fewer steps:
   - Double check your permissions. Jellyfin does not need to be the owner, but its GID should be a part of a group that can access the mount/file. This is also your reminder to keep UID/GID consistent between host and guest systems.
 - Posters aren't rendering! Something `libSkiaSharp` version related in the log!
   - Tests don't seem to cover if the right version of `libSkipSharp` is bundled with Jellyfin. I try and check the upstream log for what version is now required but I may have missed it. Open a ticket to remind me to rebuild the library. 
+- System kernel panic and reset when using VAAPI
+  - In the Bios :
+    - Try forcing the integrated GPU as first GPU
+    - Set at least 128Mb of ram to the integrated GPU and 256 of pre allocated DMVT
+  - Plug a monitor or a Dummy HDMI (some integrated GPU seem to require a monitor for memory allocation)

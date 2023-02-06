@@ -1,0 +1,118 @@
+#!/usr/bin/env python3.9
+
+import subprocess
+import sys
+
+from subprocess import run, PIPE
+
+# Global configuration (1 = true | 0 = false )
+enable_remove_colorspace=1
+enable_hardware_scaling=1
+enable_hardware_decode=1
+enable_regenerate_video_filter=1
+
+hardware_device='/dev/dri/renderD128'
+
+# Misc Functions
+def check_configuration():
+  global enable_hardware_scaling
+  global enable_regenerate_video_filter
+  if enable_hardware_decode == 1:
+    enable_hardware_scaling = 1 # If hardware decoding is enabled hardware scaling must be enabled
+    enable_regenerate_video_filter = 1 # If hardware decoding is enabled video filter has to be regenerated
+
+def remove_array_param(args, pos):
+  if pos != 0:
+    args.pop(pos)
+    args.pop(pos)
+
+def find_param(args, name):
+  pos = 0
+
+  for i in range(len(args)):
+    if name in args[i]:
+      pos = i
+
+  return pos
+
+def remove_param(args, name):
+  pos = find_param(args, name)
+  remove_array_param(args, pos)
+
+def listToString(lst, separator = ','):
+  str1 = ''
+  for ele in lst:
+    str1 += ele + separator
+  if len(str1) > 1:
+    str1 = str1[:-1]
+  return str1
+
+# Fix colors... wrong colorspace if input video isn't bt709
+def remove_forced_colorspace(args):
+  if enable_remove_colorspace == 0:
+    return
+  pos = find_param(args, 'bt709')
+  if pos != 0:
+    args[pos] = args[pos].replace('setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709,', '')
+
+# Regenerate video filter (order is important) - colorspace is forced to bt709 
+def regenerateVideoFilter(args):
+  pos = find_param(args, '-vf')
+  if pos == 0: #Not found : do nothing
+    return
+  pos += 1
+
+  if enable_regenerate_video_filter == 0:
+    return
+  arr = [ 'format=nv12|vaapi' ]
+
+  if enable_hardware_scaling == 0:
+    arr.append('scale=trunc(min(max(iw\\,ih*a)\\,min(1920\\,1080*a))/2)*2:trunc(min(max(iw/a\\,ih)\\,min(1920/a\\,1080))/2)*2,colormatrix=default:bt709,format=nv12')
+
+  arr.append('hwupload=derive_device=vaapi')
+
+  if enable_hardware_scaling == 1:
+    arr.append('scale_vaapi=trunc(min(max(iw\\,ih*a)\\,min(1920\\,1080*a))/2)*2:trunc(min(max(iw/a\\,ih)\\,min(1920/a\\,1080))/2)*2:format=nv12:out_color_matrix=bt709')
+
+  args[pos] = listToString(arr)
+
+# Fix missing ffmpeg init error on BSD Jellyfin : Enable hardware decoder + encoder
+def init_vaapi(args):
+  if enable_hardware_decode == 1 :
+    args.insert(0, 'vaapi')
+    args.insert(0, '-hwaccel_output_format')
+    args.insert(0, 'intel')
+    args.insert(0, '-hwaccel_device')
+    args.insert(0, 'vaapi=intel:' + hardware_device)
+    args.insert(0, '-init_hw_device')
+  args.insert(0, 'vaapi')
+  args.insert(0, '-hwaccel')
+
+# Check if VAAPI is enabled
+def vaapi_enabled(args):
+  return find_param(args, '_vaapi') # match [codec]_vaapi
+
+# Run ffmpeg with fixes only if VAAPI is enabled
+def run_ffmpeg(args):
+  if vaapi_enabled(args) != 0:
+    remove_forced_colorspace(args)
+    regenerateVideoFilter(args)
+    init_vaapi(args)
+
+  args.insert(0, 'verbose')
+  args.insert(0, '-v')
+  args.insert(0, 'ffmpeg')
+
+  subprocess.run(args)
+
+# Entrypoint
+if __name__ == "__main__":
+  all_args = sys.argv
+
+  check_configuration()
+
+  cmd_name = all_args[0]
+  ffmpeg_args = all_args[1:]
+
+  run_ffmpeg(ffmpeg_args)
+  

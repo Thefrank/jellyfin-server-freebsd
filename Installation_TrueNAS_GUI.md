@@ -161,40 +161,56 @@ This is similar to installing Jellyfin but with fewer steps:
 
 - Loading kernel module + adding jail config to pass /dev/dri and /dev/drm
   - Open a ssh shell on the TrueNas host 
-    Create a script file in the root folder (available here : [url](script/enable_gpu_jails.sh)) :
+    Create a script file in the iocage folder (available here : [url](script/enable_gpu_jails.sh)) :
 
-    `ee /root/enable_gpu_jails.sh`
+    - Automated Method : 
 
-    Paste the file content :
+      Replace the #url# with this [link](script/enable_gpu_jails.sh). Take note of the output of the echo command as it will be needed later.
+      
+      ```
+      cd $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
+      fetch -o enable_gpu_jails.sh #url#
+      chmod +x enable_gpu_jails.sh
+      ./enable_gpu_jails.sh
+      echo $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh
+      ```
 
-    ```
-    #!/bin/sh
+    - Manual Method :
+      `ee $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
 
-    echo '[devfsrules_bpfjail=101]
-    add path 'bpf*' unhide
-    [plex_drm=10]
-    add include $devfsrules_hide_all
-    add include $devfsrules_unhide_basic
-    add include $devfsrules_unhide_login
-    add include $devfsrules_jail
-    add include $devfsrules_bpfjail
-    add path 'dri*' unhide
-    add path 'dri/*' unhide
-    add path 'drm*' unhide
-    add path 'drm/*' unhide' >> /etc/devfs.rules
+      Paste the file content :
 
-    service devfs restart
+      ```
+      #!/bin/sh
 
-    kldload /boot/modules/i915kms.ko
-    ```
+      echo '[devfsrules_bpfjail=101]
+      add path 'bpf*' unhide
+      [plex_drm=10]
+      add include $devfsrules_hide_all
+      add include $devfsrules_unhide_basic
+      add include $devfsrules_unhide_login
+      add include $devfsrules_jail
+      add include $devfsrules_bpfjail
+      add path 'dri*' unhide
+      add path 'dri/*' unhide
+      add path 'drm*' unhide
+      add path 'drm/*' unhide' >> /etc/devfs.rules
 
-    Close the editor with [ESC] and enter
+      service devfs restart
+
+      kldload /boot/modules/i915kms.ko
+      ```
+
+      Close the editor with [ESC] and enter
 
   - Make script executable
-    `chmod +x /root/enable_gpu_jails.sh`
+    `chmod +x $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
 
   - Run the script 
-    `/root/enable_gpu_jails.sh`
+    `$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
+    
+  - Take note of the output of this command
+    `echo $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
     
 ### Required editing to the Jail and Test
 
@@ -221,7 +237,7 @@ This is similar to installing Jellyfin but with fewer steps:
     - Return to the TrueNas Core UI and navigate to Tasks --> Init/Shutdown Scripts
     - Click [ADD]
     - Change Type to 'Script'
-    - Navigate to '/root/enable_gpu_jails.sh'
+    - Navigate to the 'enable_gpu_jails.sh' file (The exact path has been revelead in the last section 'Take note of the output...')
     - Change When to 'PostInit'
     - Click [Submit]
 

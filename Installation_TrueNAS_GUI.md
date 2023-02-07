@@ -221,7 +221,7 @@ This is similar to installing Jellyfin but with fewer steps:
   - Change the rulset number to 10
   - Save and start the jail
 - Open a shell
-  - type 'vainfo' and look for entrypoints like : 'VAProfileH264Main : VAEntrypointEncSlice' (there can be multiple)
+  - type `vainfo` and look for entrypoints like : 'VAProfileH264Main : VAEntrypointEncSlice' (there can be multiple)
   - add the group video to the Jellyfin user (replace jellyfinserver if the user was changed with the sys_rc command during service setup
     - `pw group mod video -m jellyfinserver`
   - close the shell

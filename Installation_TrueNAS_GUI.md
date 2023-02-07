@@ -124,7 +124,7 @@ This is similar to installing Jellyfin but with fewer steps:
 
   - Add lffmpeg script to add missing VAAPI command
 
-    There's two version of the script. The `Basic` is recommanded for most users since it less likely to be affeted by version update of ffmpeg or Jellyfin. The `Advanced` enable more hardware utilisation at the expense of having a higher risk of parsing error.
+    There's two version of the script. The `Basic` is recommanded for most users since it less likely to be affeted by version update of ffmpeg or Jellyfin. The `Advanced` enable more hardware utilisation at the expense of having a higher risk of parsing error. `Basic` and `Advanced` scripts are interchangeable.
     
     - The `Basic` which enable hardware encoding only :
  

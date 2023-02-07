@@ -170,6 +170,7 @@ This is similar to installing Jellyfin but with fewer steps:
       ```
 
     - Manual Method :
+
       `ee $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
 
       Paste the file content :

@@ -146,7 +146,7 @@ This is similar to installing Jellyfin but with fewer steps:
        
      - The `advanced` which enable hardware decoding / scaling / encoding (less tested) :
        
-       Replace #JAIL_NAME# with your jailname (case sensitive) before executing the command. The direct #url# for the script is [url](script/lffmpeg-advanced).
+       Replace #JAIL_NAME# with your jailname (case sensitive) before executing the command. The direct #url# for the script is [url](script/lffmpeg_advanced).
 
        ```
        cd $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/jails/#JAIL_NAME#/root/usr/local/bin/

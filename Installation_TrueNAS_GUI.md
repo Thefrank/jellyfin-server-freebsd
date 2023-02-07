@@ -124,21 +124,34 @@ This is similar to installing Jellyfin but with fewer steps:
 
   - Add lffmpeg script to add missing VAAPI command
 
-     Create the lffmpeg script file (available here : [url](script/lffmpeg))
+    There's two version of the script. The `Basic` is recommanded for most users since it less likely to be affeted by version update of ffmpeg or Jellyfin. The `Advanced` enable more hardware utilisation at the expense of having a higher risk of parsing error.
+    
+    - The `Basic` which enable hardware encoding only :
+ 
+      Create the lffmpeg script file (available here : [url](script/lffmpeg))
 
-     ```
-     cd /usr/local/bin
-     ee lffmpeg
-     ```
+       ```
+       cd /usr/local/bin
+       ee lffmpeg
+       ```
 
-     Paste the file content :
+       Paste the file content :
 
-     ```
-     #!/bin/sh
-     ffmpeg -hwaccel vaapi "$@"
-     ```
+       ```
+       #!/bin/sh
+       ffmpeg -hwaccel vaapi "$@"
+       ```
 
-     Close the editor with [ESC] and enter
+       Close the editor with [ESC] and enter
+       
+     - The `advanced` which enable hardware decoding / scaling / encoding (less tested) :
+       
+       Replace #JAIL_NAME# with your jailname (case sensitive) before executing the command. The direct #url# for the script is [url](script/lffmpeg-advanced).
+
+       ```
+       cd $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/jails/#JAIL_NAME#/root/usr/local/bin/
+       fetch -o rffmpeg #url#
+       ```
 
   - Make lffmpeg script executable
 

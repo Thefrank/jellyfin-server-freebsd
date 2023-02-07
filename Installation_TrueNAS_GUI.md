@@ -130,10 +130,7 @@ This is similar to installing Jellyfin but with fewer steps:
  
       Create the lffmpeg script file (available here : [url](script/lffmpeg))
 
-       ```
-       cd /usr/local/bin
-       ee lffmpeg
-       ```
+       `ee /usr/local/bin/lffmpeg`
 
        Paste the file content :
 
@@ -148,14 +145,11 @@ This is similar to installing Jellyfin but with fewer steps:
        
        Replace #JAIL_NAME# with your jailname (case sensitive) before executing the command. The direct #url# for the script is [url](script/lffmpeg_advanced).
 
-       ```
-       cd $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/jails/#JAIL_NAME#/root/usr/local/bin/
-       fetch -o rffmpeg #url#
-       ```
+       `fetch -o /usr/local/bin/lffmpeg #url#`
 
   - Make lffmpeg script executable
 
-     `chmod +x lffmpeg`
+     `chmod +x /usr/local/bin/lffmpeg`
 
 ### Script to add on the TrueNas Core Host
 

@@ -157,54 +157,43 @@ This is similar to installing Jellyfin but with fewer steps:
   - Open a ssh shell on the TrueNas host 
     Create a script file in the iocage folder (available here : [url](script/enable_gpu_jails.sh)) :
 
-    - Automated Method : 
+    `ee $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
 
-      Replace the #url# with this [link](script/enable_gpu_jails.sh). Take note of the output of the echo command as it will be needed later.
-      
-      ```
-      cd $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)
-      fetch -o enable_gpu_jails.sh #url#
-      chmod +x enable_gpu_jails.sh
-      ./enable_gpu_jails.sh
-      echo $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh
-      ```
+    Paste the file content :
 
-    - Manual Method :
+    ```
+    #!/bin/sh
 
-      `ee $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
+    echo '[devfsrules_bpfjail=101]
+    add path 'bpf*' unhide
+    [plex_drm=10]
+    add include $devfsrules_hide_all
+    add include $devfsrules_unhide_basic
+    add include $devfsrules_unhide_login
+    add include $devfsrules_jail
+    add include $devfsrules_bpfjail
+    add path 'dri*' unhide
+    add path 'dri/*' unhide
+    add path 'drm*' unhide
+    add path 'drm/*' unhide' >> /etc/devfs.rules
 
-      Paste the file content :
+    service devfs restart
 
-      ```
-      #!/bin/sh
+    kldload /boot/modules/i915kms.ko
+    ```
 
-      echo '[devfsrules_bpfjail=101]
-      add path 'bpf*' unhide
-      [plex_drm=10]
-      add include $devfsrules_hide_all
-      add include $devfsrules_unhide_basic
-      add include $devfsrules_unhide_login
-      add include $devfsrules_jail
-      add include $devfsrules_bpfjail
-      add path 'dri*' unhide
-      add path 'dri/*' unhide
-      add path 'drm*' unhide
-      add path 'drm/*' unhide' >> /etc/devfs.rules
-
-      service devfs restart
-
-      kldload /boot/modules/i915kms.ko
-      ```
-
-      Close the editor with [ESC] and enter
+    Close the editor with [ESC] and enter
 
   - Make script executable
+
     `chmod +x $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
 
   - Run the script 
+
     `$(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
     
   - Take note of the output of this command
+
     `echo $(zfs get -H -o value mountpoint $(iocage get -p)/iocage)/enable_gpu_jails.sh`
     
 ### Required editing to the Jail and Test

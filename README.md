@@ -16,7 +16,8 @@ This package will lag behind the official Jellyfin product as it is not a part t
  - ~~CI/CD system which will likely be Azure DevOps as it does not appear Github actions has FreeBSD systems~~
    - Finished for v10.8.5!
  - Figure out how to wire FreeBSD ports system into autopackaging updates from here
- - Figure out how to use libmap in ports system instead of making a symlink for library
+ - ~~Figure out how to use libmap in ports system instead of making a symlink for library~~
+   - Future versions will use this
  
 # Bugs
 Please **DO NOT** bring bugs about this build or platform to the main jellyfin team. This is **Unofficial**. Open a ticket if you are having issues but please check their official [Issues](https://github.com/jellyfin/jellyfin/issues) first and make sure you have read the [Troubleshooting section](https://github.com/Thefrank/jellyfin-server-freebsd/blob/main/Installation_TrueNAS_GUI.md#troubleshooting-and-other-things-to-note) in the TrueNAS guide (yes, even if using base FreeBSD) as it cover most issues/bugs/quirks you might hit.

@@ -1,14 +1,23 @@
-# Installation overview using TrueNAS GUI
+# Installation Overview using TrueNAS GUI
 ## Overview
-Jellyfin currently does not use the plugin system that TrueNAS uses so this will require more interaction from the user than what normally would be expected.
 
-If you are not comfortable setting up a jail or using the shell please wait until someone (maybe me?) adds it to the community plugin libary.
+There is now a community plugin for TrueNAS CORE users made by @spz2k9 !
 
 If you are installing from base FreeBSD, I have included some general details that you can use for you jail at the end of the "Jail Setup" section
 
 As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the newer `.pkg` format.
 
-## Jail Setup
+## The Easy Way
+
+1. Use the Community Plugin
+
+---
+
+## The Advanced Way
+
+
+### Jail Setup
+
 1. From the main screen select Jails
 
 2. Click ADD
@@ -19,7 +28,7 @@ As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the
 
 5. Jail Type: Default (Clone Jail)
 
-6. Release: 12.2-Release (or newer)
+6. Release: 13.1-Release (or newer)
 
 7. Configure Basic Properties to your liking but add AT LEAST ONE of
 - [x] VNET 
@@ -63,11 +72,11 @@ Download the version you want you can find the releases of jellyfinserver here: 
 
 You can just copy and paste the full download URL and `fetch` will be able to download it:
 
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.8/jellyfinserver-10.8.8.pkg`
+`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.9/jellyfinserver-10.8.9.pkg`
 
 Now we install it:
 
-`pkg install jellyfinserver-10.8.8.pkg`
+`pkg install jellyfinserver-10.8.9.pkg`
 
 Don't close the shell out yet we still have a few more things!
 

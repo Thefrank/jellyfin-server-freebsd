@@ -31,13 +31,10 @@ This is similar to installing Jellyfin but with fewer steps:
   bastille console jellyfin
   
 - Stop the  jellyfin service
-  service stop jellyfin-server
-
-- Use `fetch` to download the newest pkg from the releases page found here: https://github.com/Thefrank/jellyfin-server-freebsd/releases/latest
-  fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.9/jellyfinserver-10.8.9.pkg
+  service stop jellyfin
 
 - Use `pkg` to install said package
-  pkg install jellyfinserver-10.8.9.pkg
+  pkg install jellyfin
 
 - Start the jellyfin server
-  service start jellyfin-server
+  service start jellyfin

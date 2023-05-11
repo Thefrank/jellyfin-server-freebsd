@@ -231,7 +231,7 @@ This is similar to installing Jellyfin but with fewer steps:
      - I don't want to use VNET!
        - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK. Blame a combination of how FreeBSD exposes its network stack to jails and how dotNET handles the responses it gets.
 - Something SQL related
-  - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`
+  - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`. `libmap` is used instead of symlinking a library but in very rare cases this can fail.
 - Jellyfin can't see my mount points / files!
   - Double check your permissions. Jellyfin does not need to be the owner, but its GID should be a part of a group that can access the mount/file. This is also your reminder to keep UID/GID consistent between host and guest systems.
 - Posters aren't rendering! Something `libSkiaSharp` version related in the log!
@@ -241,3 +241,5 @@ This is similar to installing Jellyfin but with fewer steps:
     - Try forcing the integrated GPU as first GPU
     - Set at least 128Mb of ram to the integrated GPU and 256 of pre allocated DMVT
   - Plug a monitor or a Dummy HDMI (some integrated GPU seem to require a monitor for memory allocation)
+- My configuration/db/cache got lost/delete during an upgrade!
+  - Very old versions of the package stored data in a different place inside the install location for jellyfin. Packages made before an official port used `/var/db/jellyfinserver` and `/var/cache/jellyfinserver` Newer packages use `/var/db/jellyfin` and `/var/cache/jellyfin`. You can manually move (`mv`) (see here for details: https://github.com/Thefrank/jellyfin-server-freebsd/issues/49#issuecomment-1540190015)) the data or override where jellyfin reads/stores these (`sysrc jellyfin_data_dir=` and `sysrc jellyfin_cache_dir=`)

@@ -68,15 +68,7 @@ Suggested:
 
 Back on the jails list find your newly created jail for jellyfin and click "Shell"
 
-Download the version you want you can find the releases of jellyfinserver here: https://github.com/Thefrank/jellyfin-server-freebsd/releases/
-
-You can just copy and paste the full download URL and `fetch` will be able to download it:
-
-`fetch https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.8.9/jellyfinserver-10.8.9.pkg`
-
-Now we install it:
-
-`pkg install jellyfinserver-10.8.9.pkg`
+`pkg install jellyfin`
 
 Don't close the shell out yet we still have a few more things!
 
@@ -93,17 +85,17 @@ We still are not done with the shell!
 
 Time to enable the service
 
-`sysrc jellyfinserver_enable=TRUE`
+`sysrc jellyfin_enable=TRUE`
 
 If you want to use a different UID/GID please change that now:
 
-`sysrc jellyfinserver_user="USER_YOU_WANT"`
+`sysrc jellyfin_user="USER_YOU_WANT"`
 
-`sysrc jellyfinserver_group="GROUP_YOU_WANT"`
+`sysrc jellyfin_group="GROUP_YOU_WANT"`
 
 Almost done, let's start the service:
 
-`service jellyfinserver start`
+`service jellyfin start`
 
 If everything went according to plan then jellyfin should be up and running on the IP of the jail (port 8096)!
 
@@ -113,13 +105,11 @@ If everything went according to plan then jellyfin should be up and running on t
 
 This is similar to installing Jellyfin but with fewer steps:
 
-- Stop the current jellyfin server (NOT THE JAIL)
+- Stop the current jellyfin server inside the jail shell (NOT THE JAIL) (`service jellyfin stop`)
 
-- Use `fetch` to download the newest pkg from the releases page found here: https://github.com/Thefrank/jellyfin-server-freebsd/releases/latest
+- `pkg upgrade`
 
-- Use `pkg` to install said package
-
-- Start the jellyfin server
+- Start the jellyfin server (`service jellyfin start`)
 
 ## Hardware encoding (Intel)
 
@@ -242,4 +232,4 @@ This is similar to installing Jellyfin but with fewer steps:
     - Set at least 128Mb of ram to the integrated GPU and 256 of pre allocated DMVT
   - Plug a monitor or a Dummy HDMI (some integrated GPU seem to require a monitor for memory allocation)
 - My configuration/db/cache got lost/delete during an upgrade!
-  - Very old versions of the package stored data in a different place inside the install location for jellyfin. Packages made before an official port used `/var/db/jellyfinserver` and `/var/cache/jellyfinserver` Newer packages use `/var/db/jellyfin` and `/var/cache/jellyfin`. You can manually move (`mv`) (see here for details: https://github.com/Thefrank/jellyfin-server-freebsd/issues/49#issuecomment-1540190015)) the data or override where jellyfin reads/stores these (`sysrc jellyfin_data_dir=` and `sysrc jellyfin_cache_dir=`)
+  - Very old versions, <= 10.7.7 including those using the older `.txz` format, stored data in a different place inside the install location for jellyfin (e.g., `/usr/local/jellyfin-server/db/`). Packages made before an official port (<=v10.8.9 including the initial TrueNAS plugin) used `/var/db/jellyfinserver` and `/var/cache/jellyfinserver` Newer packages including those from ports use `/var/db/jellyfin` and `/var/cache/jellyfin`. You can manually move (`mv`) (see here for details: https://github.com/Thefrank/jellyfin-server-freebsd/issues/49#issuecomment-1540190015)) the data or override where jellyfin reads/stores these (`sysrc jellyfin_data_dir=` and `sysrc jellyfin_cache_dir=`)

@@ -1,7 +1,7 @@
 # (Unofficial) Jellyfin Server for FreeBSD
 
 Microsoft does not have an official build of dotNET for FreeBSD. See [HERE](https://github.com/dotnet/runtime/issues/14537) for more details.
-This repo currently only contains binary components for [Jellyfin-Server](https://github.com/jellyfin/jellyfin) (FreeBSD AMD64) and [Jellyfin-Web](https://github.com/jellyfin/jellyfin-web/) (Portable) in addition to the required and pre-built libSkiaSharp. An installable package (.pkg) is provided for ease of installation.
+This repo currently only contains binary components for [Jellyfin-Server](https://github.com/jellyfin/jellyfin) (FreeBSD AMD64) and [Jellyfin-Web](https://github.com/jellyfin/jellyfin-web/) (Portable) in addition to the required and pre-built libSkiaSharp.
 
 ## Divergence from main project
 This product builds cleanly with a working dotNET SDK under FreeBSD 12.2+. No code modification is required unless using the `build.sh` or `build.yaml`
@@ -15,20 +15,19 @@ This package will lag behind the official Jellyfin product as it is not a part t
 
  - ~~CI/CD system which will likely be Azure DevOps as it does not appear Github actions has FreeBSD systems~~
    - Finished for v10.8.5!
- - Figure out how to wire FreeBSD ports system into autopackaging updates from here
+ - ~~Figure out how to wire FreeBSD ports system into autopackaging updates from here~~
+	- Now in ports! `pkg install jellyfin`
  - ~~Figure out how to use libmap in ports system instead of making a symlink for library~~
    - Future versions will use this
  
 # Bugs
-Please **DO NOT** bring bugs about this build or platform to the main jellyfin team. This is **Unofficial**. Open a ticket if you are having issues but please check their official [Issues](https://github.com/jellyfin/jellyfin/issues) first and make sure you have read the [Troubleshooting section](https://github.com/Thefrank/jellyfin-server-freebsd/blob/main/Installation_TrueNAS_GUI.md#troubleshooting-and-other-things-to-note) in the TrueNAS guide (yes, even if using base FreeBSD) as it cover most issues/bugs/quirks you might hit.
+Please **DO NOT** bring bugs about this build or platform to the main jellyfin team. This is **Unofficial**. Open a ticket if you are having issues but please check their official [Issues](https://github.com/jellyfin/jellyfin/issues) first and make sure you have read the [FAQ.md](FAQ.md) first.
 
 # License(s)
 
  - Jellyfin is under GPLv2 
  - Skia is under BSD-3-CLAUSE 
- - Bundled combination of the above would likely fall under GPLv2 or some dual
-   license. 
- - IANAL so I am not 100% sure.
+ - Bundled combination of the above would likely fall under GPLv2 or some dual license?
 
 # One more thing
 

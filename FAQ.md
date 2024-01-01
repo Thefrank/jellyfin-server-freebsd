@@ -1,0 +1,23 @@
+## Troubleshooting and other things to note
+- I have networking issues like DNS failures or the GUI not responding.
+   - Make sure you have VNET turned on for your jail.
+    - If you have VNET and use IPV6 make sure your jail has `ip6=inherit` if using ipv6. Using `ip6=new` will not work.
+   - Don't try and have jellyfin monitor SMB shares as `libinotify` does not impliment this well.
+   - Turn off file monitoring  This is a known issue in `libinotify`
+    - From your profile menu select "Dashboard" under "Administration". Click Libraries. On each library click the triple dot and select "Manage Library". Unselect "Enable real time monitoring". Click OK.
+- I am getting SQL related errors.
+  - This should be resolved in current versions but try this: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`. `libmap` is used instead of symlinking a library but in very rare cases this can fail.
+- Jellyfin can't see my mounts.
+  - Double check your permissions. Jellyfin does not need to be the owner, but its GID should be a part of a group that can access the mount/file. This is also your reminder to keep UID/GID consistent between host and guest systems.
+- The posters aren't rendering. I am seeing `libSkiaSharp` version related errors in the log.
+  - Tests don't seem to cover if the right version of `libSkipSharp` is bundled with Jellyfin. I try and check the upstream log for what version is now required but I may have missed it. Open a ticket to remind me to rebuild the library. 
+- System kernel panic or reboot when using VAAPI
+  - Try this in the BIOS/UEFI :
+    - Try forcing the integrated GPU as first GPU
+    - Set at least 128Mb of ram to the integrated GPU and 256 of pre allocated DMVT
+  - Plug in a monitor or a dummy HDMI connector (some integrated GPU seem to require a monitor for memory allocation)
+- My configuration/db/cache got lost/delete during an upgrade!
+  - Very old versions, <= 10.7.7 including those using the older `.txz` format, stored data in a different place inside the install location for jellyfin (e.g., `/usr/local/jellyfin-server/db/`). Packages made before an official port (<=v10.8.9 including the initial TrueNAS plugin) used `/var/db/jellyfinserver` and `/var/cache/jellyfinserver` Newer packages including those from ports use `/var/db/jellyfin` and `/var/cache/jellyfin`. You can manually move (`mv`) (see here for details: https://github.com/Thefrank/jellyfin-server-freebsd/issues/49#issuecomment-1540190015)) the data or override where jellyfin reads/stores these (`sysrc jellyfin_data_dir=` and `sysrc jellyfin_cache_dir=`)
+  Jellyfin can't find FFmpeg.
+  - Jellyfin recently changed how it looks for FFmpeg. You might have to manually point Jellyfin to where FFmpeg is installed.
+  - FFmpeg is OS/ABI specific. If you jail is FreeBSD 13.1 then don't try and run FreeBSD 13.2 binaries on it. The warnings when doing `pkg update` and `pkg upgrade` should not be ignored.

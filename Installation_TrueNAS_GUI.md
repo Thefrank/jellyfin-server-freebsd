@@ -6,6 +6,7 @@ There is now a community plugin for TrueNAS CORE users made by @spz2k9 !
 If you are installing from base FreeBSD, I have included some general details that you can use for you jail at the end of the "Jail Setup" section
 
 As of Jellyfin >= 10.7.7, installation requires `pkg` >= 1.17.0. This is for the newer `.pkg` format.
+As of Jellyfin >= 10.8.9, an official port exists.
 
 ## The Easy Way
 
@@ -123,7 +124,7 @@ This is similar to installing Jellyfin but with fewer steps:
 
   - Add lffmpeg script to add missing VAAPI command
 
-     Create the lffmpeg script file (available here : [url](script/lffmpeg))
+     Create the lffmpeg script file (available here : [url](scripts/lffmpeg))
 
      ```
      cd /usr/local/bin
@@ -210,26 +211,3 @@ This is similar to installing Jellyfin but with fewer steps:
     - Navigate to '/root/enable_gpu_jails.sh'
     - Change When to 'PostInit'
     - Click [Submit]
-
-## Troubleshooting and other things to note
-- /Confusing HTTP/S messages/ (or other problems with jellyfin not being able to use the internet)
-   - Make sure you have VNET turned on for your jail.
-     - I have VNET turned on!
-       - Don't try and have jellyfin monitor SMB shares `libinotify` does not impliment this well
-          - I am not using SMB shares!
-             - Turn off file monitor if you have more than ~5k files that it needs to monitor. This is a known issue in `libinotify`
-     - I don't want to use VNET!
-       - Your jail needs `ip6=inherit` if using ipv6. Using `ip6=new` WILL NOT WORK. Blame a combination of how FreeBSD exposes its network stack to jails and how dotNET handles the responses it gets.
-- Something SQL related
-  - This should be done automatically on install but try: `ln -s /usr/local/lib/libsqlite3.so /usr/local/lib/libe_sqlite3`. `libmap` is used instead of symlinking a library but in very rare cases this can fail.
-- Jellyfin can't see my mount points / files!
-  - Double check your permissions. Jellyfin does not need to be the owner, but its GID should be a part of a group that can access the mount/file. This is also your reminder to keep UID/GID consistent between host and guest systems.
-- Posters aren't rendering! Something `libSkiaSharp` version related in the log!
-  - Tests don't seem to cover if the right version of `libSkipSharp` is bundled with Jellyfin. I try and check the upstream log for what version is now required but I may have missed it. Open a ticket to remind me to rebuild the library. 
-- System kernel panic and reset when using VAAPI
-  - In the Bios :
-    - Try forcing the integrated GPU as first GPU
-    - Set at least 128Mb of ram to the integrated GPU and 256 of pre allocated DMVT
-  - Plug a monitor or a Dummy HDMI (some integrated GPU seem to require a monitor for memory allocation)
-- My configuration/db/cache got lost/delete during an upgrade!
-  - Very old versions, <= 10.7.7 including those using the older `.txz` format, stored data in a different place inside the install location for jellyfin (e.g., `/usr/local/jellyfin-server/db/`). Packages made before an official port (<=v10.8.9 including the initial TrueNAS plugin) used `/var/db/jellyfinserver` and `/var/cache/jellyfinserver` Newer packages including those from ports use `/var/db/jellyfin` and `/var/cache/jellyfin`. You can manually move (`mv`) (see here for details: https://github.com/Thefrank/jellyfin-server-freebsd/issues/49#issuecomment-1540190015)) the data or override where jellyfin reads/stores these (`sysrc jellyfin_data_dir=` and `sysrc jellyfin_cache_dir=`)

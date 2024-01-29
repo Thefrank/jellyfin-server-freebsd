@@ -5,7 +5,7 @@ This repo currently only contains binary components for [Jellyfin-Server](https:
 
 ## Divergence from main project
 This product builds cleanly with a working dotNET SDK under FreeBSD 12.2+. No code modification is required unless using the `build.sh` or `build.yaml`
-
+Check "building" if you would like to learn more.
 
 # Updates
 

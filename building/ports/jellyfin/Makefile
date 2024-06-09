@@ -4,7 +4,7 @@ CATEGORIES=	multimedia
 MASTER_SITES+=	https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v${DISTVERSION}/:prebuilt
 DISTFILES+=	${PREFETCH_FILE}:prefetch \
 		libSkiaSharp.so:prebuilt
-EXTRACT_ONLY+=	${PORTNAME}-${DISTNAME}-${GH_TAGNAME}_GH0.tar.gz \
+EXTRACT_ONLY+=	${PORTNAME}-${PORTNAME}-${GH_TAGNAME}_GH0.tar.gz \
 		${PORTNAME}-${PORTNAME}-web-${GH_TAGNAME}_GH0.tar.gz \
 		${PREFETCH_FILE}
 

@@ -31,8 +31,6 @@ jobs:
           rm -rf /usr/ports/multimedia/jellyfin
           rsync -a ./building/ports/jellyfin /usr/ports/multimedia/
           cd /usr/ports/multimedia/jellyfin
-          ls /usr/ports/distfiles/jellyfin*
-          cp /usr/ports/distfiles/jellyfin-jellyfin-v10.9.2_GH0.tar.gz /usr/ports/distfiles/jellyfin-jellyfin-10.9.2-v10.9.2_GH0.tar.gz
           export DEFAULT_VERSIONS=ssl=openssl
           make
           

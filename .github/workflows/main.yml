@@ -19,14 +19,15 @@ jobs:
         envs: 'MYTOKEN MYTOKEN2'
         usesh: true
         prepare: |
-          pkg install -y curl
-
+          pkg install -y libunwind icu libinotify openssl misc/compat13x dotnet
+    
         run: |
           pwd
           ls -lah
           whoami
           env
           freebsd-version
-
-
-
+          fetch https://repo.jellyfin.org/files/server/linux/latest-stable/amd64/jellyfin_10.9.6-amd64.tar.xz -o jellyfin.tar.gz
+          tar xf jellyfin.tar.xz
+          pushd jellyfin
+          

@@ -1,4 +1,13 @@
-# Building
+# Instructions for Jellyfin 10.9.x
+
+## Building with ports
+An experimental ports build that only uses one prebuilt (Skia) can be found in the ports folder.
+
+Once the bugs are worked out you can use this to build / update jellyfin directly
+
+
+# Instructions for Jellyfin < = 10.8.13
+## Building
 
 Of the binaries currently published, non-prerelease, versions here of Jellyfin there are no patches applied to source.
 

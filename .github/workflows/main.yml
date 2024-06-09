@@ -19,17 +19,16 @@ jobs:
         envs: 'MYTOKEN MYTOKEN2'
         usesh: true
         prepare: |
-          pkg install -y libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20
-    
+          pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20
+          git clone --depth=1 https://git.freebsd.org/ports.git /usr/ports
+          rm -rf /usr/ports/multimedia/jellyfin
+          rsync -a ./building/ports/jellyfin /usr/ports/multimedia/
         run: |
           pwd
           ls -lah
           whoami
           env
           freebsd-version
-          fetch https://repo.jellyfin.org/files/server/linux/latest-stable/amd64/jellyfin_10.9.6-amd64.tar.xz -o jellyfin.tar.xz
-          tar xf jellyfin.tar.xz
-          cd jellyfin
-          ls -lah
-          dotnet publish Jellyfin.Server --configuration Release --self-contained --runtime freebsd-x64 --output dist/jellyfin-server_${version}/ "-p:DebugSymbols=false;DebugType=none;UseAppHost=true"
+          cd /usr/ports/multimedia/jellyfin
+          make
           

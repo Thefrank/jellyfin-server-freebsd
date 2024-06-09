@@ -27,8 +27,9 @@ jobs:
           whoami
           env
           freebsd-version
-          fetch https://repo.jellyfin.org/files/server/linux/latest-stable/amd64/jellyfin_10.9.6-amd64.tar.xz -o jellyfin.tar.gz
+          fetch https://repo.jellyfin.org/files/server/linux/latest-stable/amd64/jellyfin_10.9.6-amd64.tar.xz -o jellyfin.tar.xz
           tar xf jellyfin.tar.xz
-          pushd jellyfin
+          cd jellyfin
+          ls -lah
           dotnet publish Jellyfin.Server --configuration Release --self-contained --runtime freebsd-x64 --output dist/jellyfin-server_${version}/ "-p:DebugSymbols=false;DebugType=none;UseAppHost=true"
           

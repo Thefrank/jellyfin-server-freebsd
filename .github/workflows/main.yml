@@ -21,6 +21,7 @@ jobs:
         prepare: |
           pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync
         run: |
+          echo $SHELL
           pwd
           ls -lah
           whoami
@@ -32,6 +33,6 @@ jobs:
           cd /usr/ports/multimedia/jellyfin
           ls /usr/ports/distfiles/jellyfin*
           cp /usr/ports/distfiles/jellyfin-jellyfin-v10.9.2_GH0.tar.gz /usr/ports/distfiles/jellyfin-jellyfin-10.9.2-v10.9.2_GH0.tar.gz
-          export DEFAULT_VERSIONS=ssl=openssl
+          setenv DEFAULT_VERSIONS ssl=openssl
           make
           

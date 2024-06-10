@@ -15,18 +15,19 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync
+          ls
+          # pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync
         run: |
           echo $SHELL
           pwd
           ls -lah
           whoami
-          env
           freebsd-version
-          git clone --depth=1 https://git.freebsd.org/ports.git /usr/ports
-          rm -rf /usr/ports/multimedia/jellyfin
-          rsync -a ./building/ports/jellyfin /usr/ports/multimedia/
-          cd /usr/ports/multimedia/jellyfin
+          # git clone --depth=1 https://git.freebsd.org/ports.git /usr/ports
+          # rm -rf /usr/ports/multimedia/jellyfin
+          # rsync -a ./building/ports/jellyfin /usr/ports/multimedia/
+          # cd /usr/ports/multimedia/jellyfin
+          cd ./building/ports/jellyfin
           export DEFAULT_VERSIONS=ssl=openssl
           touch ./iamhere
     - name: check artefacts

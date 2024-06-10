@@ -5,11 +5,12 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["github-releases"],
-      "matchPackageNames": ["jellyfin/jellyfin"],
-      "groupName": "jellyfin",
+      "datasources": ["github-tags"],
+      "packageNames": ["jellyfin/jellyfin"],
+      "groupName": "jellyfin updates",
       "groupSlug": "jellyfin",
-      "enabled": true
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "automerge": false
     }
   ],
   "npm": {

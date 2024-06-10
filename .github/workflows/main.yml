@@ -15,8 +15,7 @@ jobs:
       with:
         usesh: true
         prepare: |
-          ls
-          # pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync
+          pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync
         run: |
           echo $SHELL
           pwd
@@ -30,10 +29,9 @@ jobs:
           cd ./building/ports/jellyfin
           export DEFAULT_VERSIONS=ssl=openssl
           touch ./iamhere
-    - name: check artefacts
+          make
+    - name: Export Artifacts preparation for Self-Hosted Runner
       run: |
-        pwd 
-        ls -lah
         curl https://api.github.com/meta | jq .domains.actions
     - name: Export Artifacts
       uses: actions/upload-artifact@v4

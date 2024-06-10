@@ -11,5 +11,8 @@
       "groupSlug": "jellyfin",
       "enabled": true
     }
-  ]
+  ],
+  "npm": {
+    "enabled": false
+  }
 }

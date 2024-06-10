@@ -1,5 +1,4 @@
 etc/libmap.d/jellyfin.conf
-etc/rc.d/jellyfin
 jellyfin/AsyncKeyedLock.dll
 jellyfin/BDInfo.dll
 jellyfin/BlurHashSharp.SkiaSharp.dll

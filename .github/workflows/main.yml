@@ -5,8 +5,8 @@ on: [push]
 
 jobs:
   test:
-    # runs-on: ubicloud-standard-4
-    runs-on: ubuntu-latest
+    runs-on: ubicloud-standard-4
+    # runs-on: ubuntu-latest
     name: A job to run test in FreeBSD
     steps:
     - uses: actions/checkout@v4
@@ -30,9 +30,9 @@ jobs:
           make
     - name: Compress
       run: tar -czf ./upload.tar.gz ./building
-    # - name: Fix upload-artifact for self-hosted hunner
-    #   run: |
-    #     curl https://api.github.com/meta | jq .domains.actions
+    - name: Fix upload-artifact for self-hosted hunner
+      run: |
+        curl https://api.github.com/meta | jq .domains.actions
     - name: Export Artifacts
       uses: actions/upload-artifact@v4
       with:

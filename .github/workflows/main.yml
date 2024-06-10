@@ -32,7 +32,7 @@ jobs:
           touch ./iamhere
           # make
     - name: Compress
-      run: tar -czf ./upload.tar.gz ./
+      run: tar -czf ./upload.tar.gz ./building
     # - name: Export Artifacts preparation for Self-Hosted Runner
     #   run: |
     #     curl https://api.github.com/meta | jq .domains.actions

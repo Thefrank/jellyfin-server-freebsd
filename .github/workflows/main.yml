@@ -5,7 +5,7 @@ on: [push]
 
 jobs:
   test:
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ubicloud-standard-4
     name: A job to run test in FreeBSD
     env:
       MYTOKEN : "value1"

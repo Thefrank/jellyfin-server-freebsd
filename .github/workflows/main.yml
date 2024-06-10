@@ -7,16 +7,12 @@ jobs:
   test:
     runs-on: ubicloud-standard-4
     name: A job to run test in FreeBSD
-    env:
-      MYTOKEN : "value1"
-      MYTOKEN2: "value2"
     steps:
     - uses: actions/checkout@v4
     - name: Test in FreeBSD
       id: test
       uses: vmactions/freebsd-vm@v1
       with:
-        envs: 'MYTOKEN MYTOKEN2'
         usesh: true
         prepare: |
           pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync
@@ -32,5 +28,14 @@ jobs:
           rsync -a ./building/ports/jellyfin /usr/ports/multimedia/
           cd /usr/ports/multimedia/jellyfin
           export DEFAULT_VERSIONS=ssl=openssl
-          make
-          
+          touch ./iamhere
+    - name: check artefacts
+      run: |
+        pwd 
+        ls -lah
+        curl https://api.github.com/meta | jq .domains.actions
+    - name: Export Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: jellyfin-artifacts
+        path: ./

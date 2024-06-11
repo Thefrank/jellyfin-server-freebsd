@@ -3,17 +3,15 @@
   "extends": [
     "config:recommended"
   ],
-  "packageRules": [
-    {
-      "datasources": ["github-tags"],
-      "packageNames": ["jellyfin/jellyfin"],
-      "groupName": "jellyfin updates",
-      "groupSlug": "jellyfin",
-      "matchUpdateTypes": ["major", "minor", "patch"],
-      "automerge": false
-    }
-  ],
   "npm": {
     "enabled": false
-  }
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["^./building/ports/jellyfin/Makefile$"],
+      "matchStrings": ["DISTVERSION=\\s*(?<currentValue>.*?)\\n"],
+      "depNameTemplate": "jellyfin/jellyfin",
+      "datasourceTemplate": "github-releases"
+    }
+  ]
 }

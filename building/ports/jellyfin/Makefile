@@ -1,7 +1,7 @@
 PORTNAME=	jellyfin
-DISTVERSION=	10.9.2
+DISTVERSION=	10.9.6
 CATEGORIES=	multimedia
-MASTER_SITES+=	https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v${DISTVERSION}/:prebuilt
+MASTER_SITES+=	https://github.com/Thefrank/jellyfin-server-freebsd/releases/download/v10.9.4/:prebuilt
 DISTFILES+=	${PREFETCH_FILE}:prefetch \
 		libSkiaSharp.so:prebuilt
 EXTRACT_ONLY+=	${PORTNAME}-${PORTNAME}-${GH_TAGNAME}_GH0.tar.gz \
@@ -38,7 +38,14 @@ GH_SUBDIR=	${PORTNAME}
 USE_RC_SUBR=	jellyfin
 
 NUGET_GROUPS=	NUGET
+#Generated with:
+#dotnet restore PROJECT/blank --runtime freebsd-ARCH
+#dotnet list PROJECT/blank package --include-transitive | grep '>' | sed 's/^ *> //g;s/ \+/ /g' | cut -f 1-2 -w | tr -s '[:blank:]' ':' | sed 's/$/\ \\/' | sort -u
+#Double check what is returned here!
+#Generated list can have platform specific packages missing due to projects that target "any" instead of "RID"
+#Generated list can have "any" platform packages missing.
 #NUPKG_NUGET must be regenerated every time DISTVERSION is changed
+
 NUPKG_NUGET=	AsyncKeyedLock:6.4.2 \
 AutoFixture.AutoMoq:4.18.1 \
 AutoFixture.Xunit2:4.18.1 \
@@ -56,6 +63,7 @@ DiscUtils.Streams:0.16.13 \
 DiscUtils.Udf:0.16.13 \
 DotNet.Glob:3.1.3 \
 EFCoreSecondLevelCacheInterceptor:4.4.3 \
+EFCoreSecondLevelCacheInterceptor:4.5.0 \
 EasyCaching.Core:1.9.2 \
 ExCSS:4.2.3 \
 FSharp.Core:4.2.3 \
@@ -77,11 +85,13 @@ MetaBrainz.Common.Json:6.0.2 \
 MetaBrainz.Common:3.0.0 \
 MetaBrainz.MusicBrainz:6.1.0 \
 Microsoft.AspNetCore.Authorization:8.0.4 \
+Microsoft.AspNetCore.Authorization:8.0.6 \
 Microsoft.AspNetCore.Http.Abstractions:2.2.0 \
 Microsoft.AspNetCore.Http.Extensions:2.2.0 \
 Microsoft.AspNetCore.Http.Features:2.2.0 \
 Microsoft.AspNetCore.HttpOverrides:2.2.0 \
 Microsoft.AspNetCore.Metadata:8.0.4 \
+Microsoft.AspNetCore.Metadata:8.0.6 \
 Microsoft.AspNetCore.Mvc.Testing:8.0.4 \
 Microsoft.AspNetCore.TestHost:8.0.4 \
 Microsoft.Bcl.AsyncInterfaces:6.0.0 \
@@ -93,18 +103,28 @@ Microsoft.CodeAnalysis.Common:4.5.0 \
 Microsoft.CodeAnalysis.Workspaces.Common:4.5.0 \
 Microsoft.CodeCoverage:17.9.0 \
 Microsoft.Data.Sqlite.Core:8.0.4 \
+Microsoft.Data.Sqlite.Core:8.0.6 \
 Microsoft.Data.Sqlite:8.0.4 \
+Microsoft.Data.Sqlite:8.0.6 \
 Microsoft.EntityFrameworkCore.Abstractions:8.0.0 \
 Microsoft.EntityFrameworkCore.Abstractions:8.0.4 \
+Microsoft.EntityFrameworkCore.Abstractions:8.0.6 \
 Microsoft.EntityFrameworkCore.Analyzers:8.0.0 \
 Microsoft.EntityFrameworkCore.Analyzers:8.0.4 \
+Microsoft.EntityFrameworkCore.Analyzers:8.0.6 \
 Microsoft.EntityFrameworkCore.Design:8.0.4 \
+Microsoft.EntityFrameworkCore.Design:8.0.6 \
 Microsoft.EntityFrameworkCore.Relational:8.0.4 \
+Microsoft.EntityFrameworkCore.Relational:8.0.6 \
 Microsoft.EntityFrameworkCore.Sqlite.Core:8.0.4 \
+Microsoft.EntityFrameworkCore.Sqlite.Core:8.0.6 \
 Microsoft.EntityFrameworkCore.Sqlite:8.0.4 \
+Microsoft.EntityFrameworkCore.Sqlite:8.0.6 \
 Microsoft.EntityFrameworkCore.Tools:8.0.4 \
+Microsoft.EntityFrameworkCore.Tools:8.0.6 \
 Microsoft.EntityFrameworkCore:8.0.0 \
 Microsoft.EntityFrameworkCore:8.0.4 \
+Microsoft.EntityFrameworkCore:8.0.6 \
 Microsoft.Extensions.ApiDescription.Server:3.0.0 \
 Microsoft.Extensions.Caching.Abstractions:2.0.0 \
 Microsoft.Extensions.Caching.Abstractions:8.0.0 \
@@ -136,8 +156,11 @@ Microsoft.Extensions.DependencyInjection:8.0.0 \
 Microsoft.Extensions.DependencyModel:8.0.0 \
 Microsoft.Extensions.Diagnostics.Abstractions:8.0.0 \
 Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions:8.0.4 \
+Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions:8.0.6 \
 Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore:8.0.4 \
+Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore:8.0.6 \
 Microsoft.Extensions.Diagnostics.HealthChecks:8.0.4 \
+Microsoft.Extensions.Diagnostics.HealthChecks:8.0.6 \
 Microsoft.Extensions.Diagnostics:8.0.0 \
 Microsoft.Extensions.FileProviders.Abstractions:2.2.0 \
 Microsoft.Extensions.FileProviders.Abstractions:8.0.0 \
@@ -228,7 +251,7 @@ StyleCop.Analyzers:1.2.0-beta.556 \
 Svg.Custom:1.0.0.18 \
 Svg.Model:1.0.0.18 \
 Svg.Skia:1.0.0.18 \
-Swashbuckle.AspNetCore.ReDoc:6.5.0 \
+Swashbuckle.AspNetCore.ReDoc:6.6.2 \
 Swashbuckle.AspNetCore.Swagger:6.2.3 \
 Swashbuckle.AspNetCore.SwaggerGen:6.2.3 \
 Swashbuckle.AspNetCore.SwaggerUI:6.2.3 \
@@ -455,15 +478,15 @@ SUB_LIST=	DATADIR=${LOCALBASE}/jellyfin \
 USERS=		jellyfin
 GROUPS=		jellyfin
 
-#json files must be replaced every time DISTVERSION is updated
+#prefetch needs the package and package-lock json files from jellyfin-web
+#json files must be place every time DISTVERSION is updated
 PREFETCH_FILE=	${PORTNAME}-${DISTVERSION}-node-modules${EXTRACT_SUFX}
 PREFETCH_TIMESTAMP=	61171200
-PKG_NODE_VER=	22.12.2
+PKG_NODE_VER=	20.14.0
 NODE_ARCH=	${ARCH:S/aarch64/arm64/:S/amd64/x64/:S/i386/ia32/}
 
 .include "nuget.mk"
 
-#pre-fetch includes macro from pwsh port and from other ports that use node
 pre-fetch:
 	@-${_NUGET_FETCH}
 	if [ ! -f ${DISTDIR}/${PREFETCH_FILE} ]; then \
@@ -490,10 +513,15 @@ pre-fetch:
 post-extract:
 	${MV} ${WRKDIR}/node_modules ${WRKSRC_ui}
 
+#fix nuget location for server build
+#--no-restore is used during server build this forces more patching here
 post-patch:
 	${REINPLACE_CMD} -e 's|%%DISTDIR%%|${DISTDIR}|' \
 		-e 's|%%LOCALBASE%%|${LOCALBASE}|' ${WRKSRC_server}/nuget.config
 
+#self-contained is used to remove RUN_DEPEND on dotnet
+#"PublishReadyToRun" will only work if Crossgen2 is available before restore
+#"PublishAOT" will only work if ILCompiler is available before restore
 do-build:
 	cd ${WRKSRC_ui} && ${SETENV} ${MAKE_ENV} \
 		npm run build:production
@@ -512,8 +540,19 @@ do-install:
 	cd ${WRKSRC}/bin/publish/ && ${COPYTREE_BIN} . ${STAGEDIR}/${LOCALBASE}/jellyfin " -type f -name "jellyfin" "
 	${INSTALL_DATA} ${DISTDIR}/libSkiaSharp.so ${STAGEDIR}/${LOCALBASE}/jellyfin && ${INSTALL_DATA} ${WRKSRC}/bin/publish/*.so ${STAGEDIR}/${LOCALBASE}/jellyfin
 
+#libmap is easiest way to fix lack of e_sqlite3 on FreeBSD
 post-install:
 	@${ECHO_CMD} "libe_sqlite3.so libsqlite3.so" \
 		>${STAGEDIR}${PREFIX}/etc/libmap.d/jellyfin.conf
+
+
+#TODO: tests for server: restore target will be different
+#requires: libmap'd sqlite3, ffmpeg executable, skia library
+#do-test
+#	cd ${WRKSRC}/ && \
+#		dotnet test --configuration Release --collect:"XPlat Code Coverage" --settings tests/coverletArgs.runsettings --logger:"trx;LogFileName=testresults.xml"
+
+do-test_ui:
+	cd ${BUILD_WRKSRC} && ${SETENV} ${TEST_ENV} npm run test
 
 .include <bsd.port.mk>

@@ -29,7 +29,7 @@ jobs:
           touch ./iamhere
           make
     - name: Compress
-      run: tar -czf ./upload.tar.gz ./building
+      run: tar -czf ./upload.tar.gz ./building/ports/jellyfin/work/jellyfin-10.9.2/bin/publish
     - name: Fix upload-artifact for self-hosted hunner
       run: |
         curl https://api.github.com/meta | jq .domains.actions

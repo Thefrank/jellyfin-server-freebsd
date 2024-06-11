@@ -8,7 +8,7 @@
   },
   "regexManagers": [
     {
-      "fileMatch": ["^./building/ports/jellyfin/Makefile$"],
+      "fileMatch": ["^building/ports/jellyfin/Makefile$"],
       "matchStrings": ["DISTVERSION=\\s*(?<currentValue>.*?)\\n"],
       "depNameTemplate": "jellyfin/jellyfin",
       "datasourceTemplate": "github-releases"

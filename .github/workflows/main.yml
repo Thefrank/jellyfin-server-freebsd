@@ -19,6 +19,8 @@ jobs:
           pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync poudriere
         run: |
           echo $SHELL
+          nproc
+          free -h
           pwd
           ls -lah
           whoami

@@ -5,15 +5,16 @@ on: [push]
 
 jobs:
   test:
-    runs-on: ubicloud-standard-4
+    runs-on: ubicloud-standard-16
     # runs-on: ubuntu-latest
     name: A job to run test in FreeBSD
     steps:
     - uses: actions/checkout@v4
     - name: Test in FreeBSD
       id: test
-      uses: vmactions/freebsd-vm@v1
+      uses: Migelo/freebsd-vm@v2
       with:
+        cpu: 16
         usesh: true
         prepare: |
           pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync poudriere

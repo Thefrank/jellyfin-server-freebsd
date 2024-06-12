@@ -29,6 +29,9 @@ jobs:
           poudriere jail -c -j 140x64 -v 14.0-RELEASE
           poudriere ports -c -p default -M /usr/ports -f none -m none
           echo 'multimedia/jellyfin' > ~/pkglist
+          echo 'PARALLEL_JOBS=4' >> /usr/local/etc/poudriere.conf
+          echo 'ALLOW_MAKE_JOBS=yes' >> /usr/local/etc/poudriere.conf
+          echo '#MAKE_JOBS=4' >> /usr/local/etc/poudriere.conf
           poudriere bulk -f ~/pkglist -j 140x64
           # cd /usr/ports/multimedia/jellyfin/
           # export DEFAULT_VERSIONS=ssl=openssl

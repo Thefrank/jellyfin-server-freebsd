@@ -471,6 +471,8 @@ SUB_LIST=	DATADIR=${LOCALBASE}/jellyfin \
 USERS=		jellyfin
 GROUPS=		jellyfin
 
+DOTNET_ENV=     DOTNET_CLI_HOME=/tmp
+
 #json files must be replaced every time DISTVERSION is updated
 PREFETCH_FILE=	${PORTNAME}-${DISTVERSION}-node-modules${EXTRACT_SUFX}
 PREFETCH_TIMESTAMP=	61171200
@@ -514,8 +516,8 @@ do-build:
 		npm run build:production
 
 	cd ${WRKSRC_server}/ && \
-		dotnet restore Jellyfin.Server --runtime freebsd-x64 --packages ${WRKDIR}/packages && \
-		dotnet publish Jellyfin.Server --configuration Release --self-contained --runtime freebsd-x64 --packages ${WRKDIR}/packages -o bin/publish "-p:DebugSymbols=false;DebugType=none;UseAppHost=true;PublishReadyToRun=false"
+		${SETENV} ${MAKE_ENV} ${DOTNET_ENV} dotnet restore Jellyfin.Server --runtime freebsd-x64 --packages ${WRKDIR}/packages && \
+		${SETENV} ${MAKE_ENV} ${DOTNET_ENV} dotnet publish Jellyfin.Server --configuration Release --self-contained --runtime freebsd-x64 --packages ${WRKDIR}/packages -o bin/publish "-p:DebugSymbols=false;DebugType=none;UseAppHost=true;PublishReadyToRun=false"
 
 post-build:
 	${MKDIR} ${WRKSRC_server}/bin/publish/jellyfin-web

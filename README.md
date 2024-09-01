@@ -9,6 +9,8 @@ Once a source build option is available for FreeBSD ports, this repo may no long
 
 Those needing an update ASAP should use the ports version as a guide for building an update.
 
+I will try and keep the binaries updated. For those that just want them.
+
 This repo will remain open for those needing questions answered.
 
 ## Divergence from main project

@@ -80,6 +80,9 @@ Now that we have it installed a few more steps are required.
 ### User and Group Setup
 Creation of a user and group is handled by the package on installation but if you want to use your own, set that up now.
 
+#### Example:
+`pw useradd -n "USER_YOU_WANT" -u "USER_ID" -d /nonexistent -s /usr/sbin/nologin`
+
 We still are not done with the shell!
 
 ### Service Setup

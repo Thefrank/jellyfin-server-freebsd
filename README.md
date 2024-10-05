@@ -15,7 +15,7 @@ This repo will remain open for those needing questions answered.
 
 ## Divergence from main project
 
-This product builds cleanly with a working dotNET SDK under FreeBSD 12.2+. No code modification is required unless using the `build.sh` or `build.yaml`
+This product builds cleanly with a working dotNET SDK under FreeBSD 13.3+. No code modification is required unless you want HWaccel support.
 Check "building" if you would like to learn more.
 
 # Known Issues

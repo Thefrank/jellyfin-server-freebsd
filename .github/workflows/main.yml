@@ -1,0 +1,55 @@
+
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+    #runs-on: ubicloud-standard-16
+    runs-on: ubuntu-latest
+    name: A job to run test in FreeBSD
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in FreeBSD
+      id: test
+      uses: Migelo/freebsd-vm@v2
+      with:
+        cpu: 4
+        usesh: true
+        prepare: |
+          pkg install -y git libunwind icu libinotify openssl misc/compat13x dotnet python311 npm-node20 rsync poudriere
+        run: |
+          echo $SHELL
+          nproc
+          free -h
+          pwd
+          ls -lah
+          whoami
+          freebsd-version
+          git clone --depth=1 https://git.freebsd.org/ports.git /usr/ports
+          mkdir /usr/ports/distfiles
+          rsync -a --delete building/ports/jellyfin/ /usr/ports/multimedia/jellyfin/
+          poudriere jail -c -j 140x64 -v 14.0-RELEASE
+          poudriere ports -c -p default -M /usr/ports -f none -m none
+          echo 'multimedia/jellyfin' > ~/pkglist
+          echo 'PARALLEL_JOBS=4' >> /usr/local/etc/poudriere.conf
+          echo 'ALLOW_MAKE_JOBS=yes' >> /usr/local/etc/poudriere.conf
+          echo '#MAKE_JOBS=4' >> /usr/local/etc/poudriere.conf
+          poudriere bulk -f ~/pkglist -j 140x64
+          # cd /usr/ports/multimedia/jellyfin/
+          # export DEFAULT_VERSIONS=ssl=openssl
+          # touch ./iamhere
+          # make
+    # - name: Compress
+    #   run: tar -czf ./upload.tar.gz ./building/ports/jellyfin/work/jellyfin-10.9.2/bin/publish
+    - name: Fix upload-artifact for self-hosted hunner
+      run: |
+        curl https://api.github.com/meta | jq .domains.actions
+    - name: Export Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: jellyfin-artifacts
+        # path: ./upload.tar.gz
+        path: /usr/local/poudriere/data/packages/133x64-default/All/jellyfin-10.9.4.pkg
+        overwrite: true
+        compression-level: 0 # We are already gzipping above, makes no sense to compress again. Remove wehen upload-artifact fixes its stuff

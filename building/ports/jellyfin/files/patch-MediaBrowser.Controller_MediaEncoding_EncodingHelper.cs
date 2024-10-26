@@ -1,15 +1,15 @@
---- MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs.orig	2024-05-17 20:09:34 UTC
+--- MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs.orig	2024-10-26 18:17:18 UTC
 +++ MediaBrowser.Controller/MediaEncoding/EncodingHelper.cs
-@@ -886,7 +886,7 @@ namespace MediaBrowser.Controller.MediaEncoding
-         private string GetQsvDeviceArgs(string alias)
+@@ -894,7 +894,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+         private string GetQsvDeviceArgs(string renderNodePath, string alias)
          {
              var arg = " -init_hw_device qsv=" + (alias ?? QsvAlias);
 -            if (OperatingSystem.IsLinux())
 +            if (OperatingSystem.IsLinux() || OperatingSystem.IsFreeBSD())
              {
                  // derive qsv from vaapi device
-                 return GetVaapiDeviceArgs(null, "iHD", "i915", null, VaapiAlias) + arg + "@" + VaapiAlias;
-@@ -957,6 +957,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+                 return GetVaapiDeviceArgs(renderNodePath, "iHD", "i915", "0x8086", null, VaapiAlias) + arg + "@" + VaapiAlias;
+@@ -971,6 +971,7 @@ namespace MediaBrowser.Controller.MediaEncoding
              var args = new StringBuilder();
              var isWindows = OperatingSystem.IsWindows();
              var isLinux = OperatingSystem.IsLinux();
@@ -17,25 +17,25 @@
              var isMacOS = OperatingSystem.IsMacOS();
              var optHwaccelType = options.HardwareAccelerationType;
              var vidDecoder = GetHardwareVideoDecoder(state, options) ?? string.Empty;
-@@ -964,7 +965,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -978,7 +979,7 @@ namespace MediaBrowser.Controller.MediaEncoding
  
-             if (string.Equals(optHwaccelType, "vaapi", StringComparison.OrdinalIgnoreCase))
+             if (optHwaccelType == HardwareAccelerationType.vaapi)
              {
 -                if (!isLinux || !_mediaEncoder.SupportsHwaccel("vaapi"))
 +                if ((!isLinux && !isFreeBSD) || !_mediaEncoder.SupportsHwaccel("vaapi"))
                  {
                      return string.Empty;
                  }
-@@ -1037,7 +1038,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -1052,7 +1053,7 @@ namespace MediaBrowser.Controller.MediaEncoding
              }
-             else if (string.Equals(optHwaccelType, "qsv", StringComparison.OrdinalIgnoreCase))
+             else if (optHwaccelType == HardwareAccelerationType.qsv)
              {
 -                if ((!isLinux && !isWindows) || !_mediaEncoder.SupportsHwaccel("qsv"))
 +                if ((!isLinux && !isWindows && !isFreeBSD) || !_mediaEncoder.SupportsHwaccel("qsv"))
                  {
                      return string.Empty;
                  }
-@@ -3967,6 +3968,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -4010,6 +4011,7 @@ namespace MediaBrowser.Controller.MediaEncoding
  
              var isWindows = OperatingSystem.IsWindows();
              var isLinux = OperatingSystem.IsLinux();
@@ -43,7 +43,7 @@
              var vidDecoder = GetHardwareVideoDecoder(state, options) ?? string.Empty;
              var isSwDecoder = string.IsNullOrEmpty(vidDecoder);
              var isSwEncoder = !vidEncoder.Contains("qsv", StringComparison.OrdinalIgnoreCase);
-@@ -3974,7 +3976,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -4017,7 +4019,7 @@ namespace MediaBrowser.Controller.MediaEncoding
              var isIntelDx11OclSupported = isWindows
                  && _mediaEncoder.SupportsHwaccel("d3d11va")
                  && isQsvOclSupported;
@@ -52,7 +52,7 @@
                  && IsVaapiSupported(state)
                  && isQsvOclSupported;
  
-@@ -4435,10 +4437,11 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -4599,10 +4601,11 @@ namespace MediaBrowser.Controller.MediaEncoding
              }
  
              var isLinux = OperatingSystem.IsLinux();
@@ -65,7 +65,7 @@
              var isVaapiOclSupported = isVaapiFullSupported && IsOpenclFullSupported();
              var isVaapiVkSupported = isVaapiFullSupported && IsVulkanFullSupported();
  
-@@ -5821,11 +5824,12 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -6129,11 +6132,12 @@ namespace MediaBrowser.Controller.MediaEncoding
          {
              var isWindows = OperatingSystem.IsWindows();
              var isLinux = OperatingSystem.IsLinux();
@@ -80,7 +80,7 @@
              var isVideotoolboxSupported = isMacOS && _mediaEncoder.SupportsHwaccel("videotoolbox");
              var isRkmppSupported = isLinux && IsRkmppFullSupported();
              var isCodecAvailable = options.HardwareDecodingCodecs.Contains(videoCodec, StringComparison.OrdinalIgnoreCase);
-@@ -5945,8 +5949,9 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -6282,8 +6286,9 @@ namespace MediaBrowser.Controller.MediaEncoding
          {
              var isWindows = OperatingSystem.IsWindows();
              var isLinux = OperatingSystem.IsLinux();
@@ -88,10 +88,10 @@
  
 -            if ((!isWindows && !isLinux)
 +            if ((!isWindows && !isLinux && !isFreeBSD)
-                 || !string.Equals(options.HardwareAccelerationType, "qsv", StringComparison.OrdinalIgnoreCase))
+                 || options.HardwareAccelerationType != HardwareAccelerationType.qsv)
              {
                  return null;
-@@ -5956,7 +5961,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -6293,7 +6298,7 @@ namespace MediaBrowser.Controller.MediaEncoding
              var isIntelDx11OclSupported = isWindows
                  && _mediaEncoder.SupportsHwaccel("d3d11va")
                  && isQsvOclSupported;
@@ -100,12 +100,12 @@
                  && IsVaapiSupported(state)
                  && isQsvOclSupported;
              var hwSurface = (isIntelDx11OclSupported || isIntelVaapiOclSupported)
-@@ -6136,7 +6141,7 @@ namespace MediaBrowser.Controller.MediaEncoding
+@@ -6492,7 +6497,7 @@ namespace MediaBrowser.Controller.MediaEncoding
  
          public string GetVaapiVidDecoder(EncodingJobInfo state, EncodingOptions options, MediaStream videoStream, int bitDepth)
          {
 -            if (!OperatingSystem.IsLinux()
 +            if ((!OperatingSystem.IsLinux() && !OperatingSystem.IsFreeBSD())
-                 || !string.Equals(options.HardwareAccelerationType, "vaapi", StringComparison.OrdinalIgnoreCase))
+                 || options.HardwareAccelerationType != HardwareAccelerationType.vaapi)
              {
                  return null;
